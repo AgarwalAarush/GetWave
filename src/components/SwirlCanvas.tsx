@@ -1,15 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useTheme } from "next-themes";
 
-/* Dark mode: cool metallic silver */
-const DARK_PRIMARY = { r: 180, g: 182, b: 190 };
-const DARK_BRIGHT = { r: 210, g: 212, b: 220 };
-
-/* Light mode: softer teal-tinted gray (visible on light background) */
-const LIGHT_PRIMARY = { r: 100, g: 120, b: 130 };
-const LIGHT_BRIGHT = { r: 140, g: 165, b: 175 };
+/* Cool metallic silver palette */
+const SILVER_PRIMARY = { r: 180, g: 182, b: 190 };
+const SILVER_BRIGHT = { r: 210, g: 212, b: 220 };
 
 function floor(x: number) {
   return x | 0;
@@ -142,7 +137,6 @@ const rand = (max: number) => Math.random() * max;
 const TAU = 2 * Math.PI;
 
 export function SwirlCanvas() {
-  const { resolvedTheme } = useTheme();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const frameRef = useRef<number>(0);
   const offscreenRef = useRef<CanvasRenderingContext2D | null>(null);
@@ -154,10 +148,6 @@ export function SwirlCanvas() {
   const boundsRef = useRef({ width: 0, height: 0, centerx: 0, centery: 0 });
 
   const PROPS = ["x", "y", "vx", "vy", "a", "l", "ttl", "vc", "r", "g", "b"];
-
-  const isDark = resolvedTheme !== "light";
-  const primary = isDark ? DARK_PRIMARY : LIGHT_PRIMARY;
-  const bright = isDark ? DARK_BRIGHT : LIGHT_BRIGHT;
 
   const spawn = (): number[] => {
     const { width, height, centerx, centery } = boundsRef.current;
@@ -190,9 +180,9 @@ export function SwirlCanvas() {
       1
     );
 
-    const r = Math.floor(primary.r + (bright.r - primary.r) * dist + rand(20));
-    const g = Math.floor(primary.g + (bright.g - primary.g) * dist + rand(18));
-    const b = Math.floor(primary.b + (bright.b - primary.b) * dist + rand(22));
+    const r = Math.floor(SILVER_PRIMARY.r + (SILVER_BRIGHT.r - SILVER_PRIMARY.r) * dist + rand(20));
+    const g = Math.floor(SILVER_PRIMARY.g + (SILVER_BRIGHT.g - SILVER_PRIMARY.g) * dist + rand(18));
+    const b = Math.floor(SILVER_PRIMARY.b + (SILVER_BRIGHT.b - SILVER_PRIMARY.b) * dist + rand(22));
 
     return [x, y, 0, 0, 0, 0, ttl, vc, r, g, b];
   };
@@ -337,20 +327,20 @@ export function SwirlCanvas() {
 
       ctx.save();
       ctx.globalCompositeOperation = "destination-out";
-      ctx.fillStyle = isDark ? "rgba(0, 0, 0, 0.16)" : "rgba(255, 255, 255, 0.12)";
+      ctx.fillStyle = "rgba(0, 0, 0, 0.16)";
       ctx.fillRect(0, 0, width, height);
       ctx.restore();
 
       ctx.save();
-      ctx.filter = isDark ? "blur(0.5px) brightness(115%)" : "blur(0.5px) brightness(100%)";
-      ctx.globalAlpha = isDark ? 0.9 : 0.85;
+      ctx.filter = "blur(0.5px) brightness(115%)";
+      ctx.globalAlpha = 0.9;
       ctx.drawImage(offCtx!.canvas, 0, 0);
       ctx.restore();
 
       ctx.save();
       ctx.globalCompositeOperation = "lighter";
       ctx.filter = "saturate(140%) blur(0.25px)";
-      ctx.globalAlpha = isDark ? 0.45 : 0.35;
+      ctx.globalAlpha = 0.45;
       ctx.drawImage(offCtx!.canvas, 0, 0);
       ctx.restore();
 
@@ -376,7 +366,7 @@ export function SwirlCanvas() {
       window.removeEventListener("resize", onResize);
       window.removeEventListener("mousemove", onMouseMove);
     };
-  }, [isDark]);
+  }, []);
 
   return (
     <canvas
