@@ -325,7 +325,11 @@ export function SwirlCanvas() {
 
       offCtx!.putImageData(o, 0, 0);
 
-      ctx.clearRect(0, 0, width, height);
+      ctx.save();
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.fillStyle = "rgba(0, 0, 0, 0.35)";
+      ctx.fillRect(0, 0, width, height);
+      ctx.restore();
 
       ctx.save();
       ctx.filter = "blur(0.5px) brightness(115%)";
