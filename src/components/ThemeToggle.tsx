@@ -15,7 +15,7 @@ export function ThemeToggle() {
     return (
       <button
         aria-label="Toggle theme"
-        className="h-9 w-9 rounded-full text-zinc-500 dark:text-zinc-400"
+        className="h-9 w-9 rounded-full text-zinc-700 dark:text-zinc-400"
       >
         <span className="sr-only">Toggle theme</span>
       </button>
@@ -28,7 +28,7 @@ export function ThemeToggle() {
     <button
       onClick={() => setTheme(isDark ? "light" : "dark")}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-      className="flex h-9 w-9 items-center justify-center rounded-full text-zinc-500 transition-colors hover:bg-zinc-200 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+      className="flex h-9 w-9 items-center justify-center rounded-full text-zinc-700 transition-colors hover:bg-zinc-200 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
     >
       {isDark ? (
         <svg
